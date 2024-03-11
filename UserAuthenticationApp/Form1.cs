@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.SQLite;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -22,30 +23,22 @@ namespace UserAuthenticationApp
         {
             InitializeComponent();
             handler = new DataHandler();
-            // Vytvoření defaultního účtu admina
+            // Create a default admin account
             admin = new Admin
-            
             {
                 Username = "admin",
                 PasswordHash = handler.GetPasswordHash("admin")
             };
 
-            LoadUsersFromXml();
+            LoadUsersFromDatabase();
         }
 
 
-        private void LoadUsersFromXml()
+        private void LoadUsersFromDatabase()
         {
-            string filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "users.xml");
-            if (File.Exists(filePath))
-            {
-                XmlSerializer serializer = new XmlSerializer(typeof(List<User>));
-                using (FileStream fileStream = new FileStream(filePath, FileMode.Open))
-                {
-                    admin.Users = (List<User>)serializer.Deserialize(fileStream);
-                }
-            }
+            admin.Users = handler.GetAllUsers();
         }
+
 
 
 

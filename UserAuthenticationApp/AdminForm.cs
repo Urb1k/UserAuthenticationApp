@@ -76,7 +76,7 @@ namespace UserAuthenticationApp
                 };
                 admin.Users.Add(newUser);
                 RefreshUserList();
-                SaveUsersToXml(); // Uložení uživatelů do souboru XML
+                handler.SaveUser(newUser); // Uložení uživatelů do souboru XML
             }
             else
             {
